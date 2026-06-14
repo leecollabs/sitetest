@@ -1,0 +1,12 @@
+{
+  "name": "sitetest-api",
+  "version": "1.0.0",
+  "description": "API that indexes page scripts, logs activity, and outputs encoded JSON",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node src/test.js"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
