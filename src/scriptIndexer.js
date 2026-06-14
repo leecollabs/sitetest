@@ -17,16 +17,16 @@
  * with the timecode appended as the final value.
  *
  * @param {string[]} scripts - Array of script src URLs found on the page
- * @returns {string} Comma-separated encoded string with timecode as final value
+ * @param {string} [timecode] - Optional timecode; defaults to Date.now()
+ * @returns {{ indexString: string, timecode: string }}
  */
-function indexScripts(scripts) {
-  const timecode = Date.now().toString();
+function indexScripts(scripts, timecode) {
+  timecode = timecode || Date.now().toString();
   const encodedScripts = scripts.map(script => encodeURIComponent(script));
   const encodedTimecode = encodeURIComponent(timecode);
 
-  // Join all encoded scripts with commas, append timecode as final value
   const indexString = [...encodedScripts, encodedTimecode].join(',');
-  return indexString;
+  return { indexString, timecode };
 }
 
 /**
@@ -39,7 +39,7 @@ function indexScripts(scripts) {
  */
 function createScriptJson(scripts, pageUrl) {
   const timecode = Date.now().toString();
-  const indexString = indexScripts(scripts);
+  const { indexString } = indexScripts(scripts, timecode);
 
   return {
     value: encodeURIComponent(indexString),

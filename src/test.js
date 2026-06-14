@@ -22,12 +22,14 @@ console.log('Testing indexScripts:');
 {
   const scripts = ['https://cdn.example.com/lib.js', '/assets/app.js'];
   const result = indexScripts(scripts);
-  const parts = result.split(',');
+  const parts = result.indexString.split(',');
 
   assert(parts.length === 3, 'Should have 3 parts (2 scripts + 1 timecode)');
   assert(decodeURIComponent(parts[0]) === scripts[0], 'First script should decode correctly');
   assert(decodeURIComponent(parts[1]) === scripts[1], 'Second script should decode correctly');
   assert(!isNaN(Number(decodeURIComponent(parts[2]))), 'Timecode should be a number');
+  const timecodeValue = Number(decodeURIComponent(parts[2]));
+  assert(timecodeValue > Date.now() - 5000 && timecodeValue <= Date.now(), 'Timecode should be recent');
 }
 
 // Test createScriptJson

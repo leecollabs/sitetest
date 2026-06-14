@@ -28,13 +28,13 @@
    * @param {string[]} scripts
    * @returns {string}
    */
-  function indexScripts(scripts) {
-    var timecode = Date.now().toString();
+  function indexScripts(scripts, timecode) {
+    timecode = timecode || Date.now().toString();
     var encoded = scripts.map(function (s) {
       return encodeURIComponent(s);
     });
     encoded.push(encodeURIComponent(timecode));
-    return encoded.join(',');
+    return { indexString: encoded.join(','), timecode: timecode };
   }
 
   /**
@@ -45,10 +45,10 @@
    */
   function createAndSendJson(scripts, pageUrl) {
     var timecode = Date.now().toString();
-    var indexString = indexScripts(scripts);
+    var result = indexScripts(scripts, timecode);
 
     var payload = {
-      value: encodeURIComponent(indexString),
+      value: encodeURIComponent(result.indexString),
       url: encodeURIComponent(pageUrl),
       timecode: encodeURIComponent(timecode)
     };
